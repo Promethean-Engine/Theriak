@@ -30,7 +30,7 @@ decl_storage! {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
 		PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
-                Attestation get (fn attestations): map hasher(blake2_128_concat) T::AccountId => (u32, bool);
+                Attestation get (fn attestations): double_map hasher(blake2_128_concat) T::AccountId, hasher(blake2_128_concat) u32 => bool;
 	}
 }
 
@@ -97,7 +97,7 @@ decl_module! {
                 #[weight = 500]
                 pub fn attest_affirmative(origin, indicator: u32) -> dispatch::DispatchResult {
                     let who = ensure_signed(origin)?;
-                    <Attestation<T>>::insert(&who, (indicator, true));
+                    <Attestation<T>>::insert(&who, indicator, true);
                     Self::deposit_event(RawEvent::AttestedBy(who, indicator, true));
                     Ok(())
                 }
@@ -105,7 +105,7 @@ decl_module! {
                 #[weight = 500]
                 pub fn attest_negative(origin, indicator: u32) -> dispatch::DispatchResult {
                     let who = ensure_signed(origin)?;
-                    <Attestation<T>>::insert(&who, (indicator, false));
+                    <Attestation<T>>::insert(&who, indicator, false);
                     Self::deposit_event(RawEvent::AttestedBy(who, indicator, false));
                     Ok(())
                 }
