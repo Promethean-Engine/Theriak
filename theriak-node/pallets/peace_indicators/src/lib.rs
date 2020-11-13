@@ -69,40 +69,45 @@ decl_module! {
 
 		fn deposit_event() = default;
 
-		#[weight = 10_000 + T::DbWeight::get().writes(1)]
-		pub fn sudo_submit_new_indicator_set(origin, indicators: Vec<Vec<u8>>) -> dispatch::DispatchResult {
-			let _who = ensure_root(origin)?;
-			PeaceIndicators::drain();
+        /// Removes all current indicators and instantiates the set with new indicators
+        #[weight = 10_000 + T::DbWeight::get().writes(1)]
+        pub fn sudo_submit_new_indicator_set(origin, indicators: Vec<Vec<u8>>) -> dispatch::DispatchResult {
+            // Check that the extrinsic was signed and get the signer.
+            // This function will return an error if the extrinsic is not signed.
+            // https://substrate.dev/docs/en/knowledgebase/runtime/origin
+            let _who = ensure_root(origin)?;
+            PeaceIndicators::drain();
 
-			for (idx, indicator) in indicators.iter().enumerate() {
-				PeaceIndicators::insert(idx as u32, indicator);
-				Self::deposit_event(RawEvent::IndicatorStored(idx as u32));
-			}
+            for (idx, indicator) in indicators.iter().enumerate() {
+                // Update storage.
+                PeaceIndicators::insert(idx as u32, indicator);
+                Self::deposit_event(RawEvent::IndicatorStored(idx as u32));
+            }
 
 			Ok(())
 		}
 
-		#[weight = 10_000 + T::DbWeight::get().writes(1)]
-		pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
-			let _who = ensure_root(origin)?;
-			Self::deposit_event(RawEvent::InvestigationUnderway(indicator));
-			Ok(())
-		}
+        #[weight = 10_000 + T::DbWeight::get().writes(1)]
+        pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
+            let _who = ensure_root(origin)?;
+            Self::deposit_event(RawEvent::InvestigationUnderway(indicator));
+            Ok(())
+        }
 
-		#[weight = 500]
-		pub fn attest_affirmative(origin, indicator: u32) -> dispatch::DispatchResult {
-			let who = ensure_signed(origin)?;
-			<Attestation<T>>::insert(&who, indicator, true);
-			Self::deposit_event(RawEvent::AttestedBy(who, indicator, true));
-			Ok(())
-		}
+        #[weight = 100 + T::DbWeight::get().writes(1)]
+        pub fn attest_affirmative(origin, indicator: u32) -> dispatch::DispatchResult {
+            let who = ensure_signed(origin)?;
+            <Attestation<T>>::insert(&who, indicator, true);
+            Self::deposit_event(RawEvent::AttestedBy(who, indicator, true));
+            Ok(())
+        }
 
-		#[weight = 500]
-		pub fn attest_negative(origin, indicator: u32) -> dispatch::DispatchResult {
-			let who = ensure_signed(origin)?;
-			<Attestation<T>>::insert(&who, indicator, false);
-			Self::deposit_event(RawEvent::AttestedBy(who, indicator, false));
-			Ok(())
-		}
-	}
+        #[weight = 100 + T::DbWeight::get().writes(1)]
+        pub fn attest_negative(origin, indicator: u32) -> dispatch::DispatchResult {
+            let who = ensure_signed(origin)?;
+            <Attestation<T>>::insert(&who, indicator, false);
+            Self::deposit_event(RawEvent::AttestedBy(who, indicator, false));
+            Ok(())
+        }
+    }
 }

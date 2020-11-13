@@ -1,4 +1,0 @@
-max_width = 120
-use_small_heuristics = "Max"
-edition = "2018"
-newline_style = "Unix"

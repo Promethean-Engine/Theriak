@@ -1,23 +1,22 @@
 import React from 'react';
-
-import { Epi } from '../../dataTypes';
-import './EpiItem.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { Epi } from '../../dataTypes';
+import './EpiItem.css';
 
 type EpiItemProps = {
-    epi: Epi
+    epi: Epi,
+    reportEpi: Function
 }
 
-const EpiItem: React.FC<EpiItemProps> = ({ epi }) => {
+const EpiItem: React.FC<EpiItemProps> = ({ epi, reportEpi }) => {
     return (
         <div className='epiItem'>
             <div className='epiText'>{epi.text}</div>
             <div className="epiIcons">
-                <FontAwesomeIcon icon={faCheckCircle} className='icon accept' />
-                <FontAwesomeIcon icon={faTimesCircle} className='icon decline' />
+                <FontAwesomeIcon icon={faCheckCircle} className='icon accept' onClick={() => reportEpi(epi.id, true)} />
+                <FontAwesomeIcon icon={faTimesCircle} className='icon decline' onClick={() => reportEpi(epi.id, false)} />
             </div>
         </div>
     );
