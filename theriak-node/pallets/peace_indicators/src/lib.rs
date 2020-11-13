@@ -29,8 +29,8 @@ decl_storage! {
 	trait Store for Module<T: Trait> as TemplateModule {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
-		PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
-                Attestation get (fn attestations): double_map hasher(blake2_128_concat) T::AccountId, hasher(blake2_128_concat) u32 => bool;
+                PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
+                Attestation get(fn attestations): double_map hasher(blake2_128_concat) T::AccountId, hasher(blake2_128_concat) u32 => bool;
 	}
 }
 
