@@ -1,15 +1,5 @@
 .contentContainer {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    max-width: 1500px;
-    margin: 0 auto;
-    margin-top: 20px;
-    justify-content: space-around;
-}
-
-.epi {
-    width: 800px;
+    margin: 20px auto 0px auto;
 }
 
 .chain {
@@ -18,7 +8,4 @@
 
 .item {
     min-height: 800px;
-    box-shadow: 0 16px 48px #E7EBF6;
-    background: #fff;
 }
-

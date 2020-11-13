@@ -1,0 +1,20 @@
+.epiList {
+    max-width: 700px;
+    padding: 20px 40px 20px 40px;
+    margin: 0 auto;
+}
+
+.textHeader {
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    font: bolder 25px Montserrat;
+    color: #005380;
+    text-transform: uppercase;
+}
+
+@media (max-width: 500px) {
+    .textHeader {
+        font: bolder 15px Montserrat;
+    }
+}
