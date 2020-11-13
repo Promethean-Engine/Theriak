@@ -1,7 +1,8 @@
 .epiList {
     max-width: 700px;
-    padding: 20px 40px 20px 40px;
+    padding: 0px 20px 20px 20px;
     margin: 0 auto;
+    min-height: calc(100vh - 135px);
 }
 
 .textHeader {

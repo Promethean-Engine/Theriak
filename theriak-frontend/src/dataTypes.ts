@@ -7,3 +7,9 @@ export type EpiAbuse = {
     id: number,
     value: boolean
 }
+
+export type TrustPerson = {
+    id: number,
+    trustRate: number,
+    name: string
+}
