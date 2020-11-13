@@ -1,12 +1,14 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
+use crate::dispatch::Vec;
 /// Edit this file to define custom logic or remove it if it is not needed.
 /// Learn more about FRAME and the core library of Substrate FRAME pallets:
 /// https://substrate.dev/docs/en/knowledgebase/runtime/frame
-
-use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch, storage::IterableStorageMap, traits::Get};
-use frame_system::{ensure_root};
-use crate::dispatch::Vec;
+use frame_support::{
+	decl_error, decl_event, decl_module, decl_storage, dispatch, storage::IterableStorageMap,
+	traits::Get,
+};
+use frame_system::ensure_root;
 
 #[cfg(test)]
 mod mock;
@@ -39,8 +41,8 @@ decl_event!(
 	pub enum Event {
 		/// Event documentation should end with an array that provides descriptive names for event
 		/// parameters. [something, who]
-                IndicatorStored(u32),
-                InvestigationUnderway(u32),
+		IndicatorStored(u32),
+		InvestigationUnderway(u32),
 	}
 );
 
@@ -64,32 +66,31 @@ decl_module! {
 
 		// Events must be initialized if they are used by the pallet.
 		fn deposit_event() = default;
-            
-                /// Removes all current indicators and instantiates the set with new indicators
+
+				/// Removes all current indicators and instantiates the set with new indicators
 		#[weight = 10_000 + T::DbWeight::get().writes(1)]
 		pub fn sudo_submit_new_indicator_set(origin, indicators: Vec<Vec<u8>>) -> dispatch::DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			// https://substrate.dev/docs/en/knowledgebase/runtime/origin
 			let _who = ensure_root(origin)?;
-                        PeaceIndicators::drain(); 
-                         
-                        for (idx, indicator) in indicators.iter().enumerate() {
-                            // Update storage.
-			    PeaceIndicators::insert(idx as u32, indicator);
-                            Self::deposit_event(Event::IndicatorStored(idx as u32));
-                        }
-			
+						PeaceIndicators::drain();
+
+						for (idx, indicator) in indicators.iter().enumerate() {
+							// Update storage.
+				PeaceIndicators::insert(idx as u32, indicator);
+							Self::deposit_event(Event::IndicatorStored(idx as u32));
+						}
 			// Emit an event.
 			// Return a successful DispatchResult
 			Ok(())
 		}
-                
-                #[weight = 10_000 + T::DbWeight::get().writes(1)]
-                pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
-                    let _who = ensure_root(origin)?;
-                    Self::deposit_event(Event::InvestigationUnderway(indicator));
-                    Ok(()) 
-                }
+
+				#[weight = 10_000 + T::DbWeight::get().writes(1)]
+				pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
+					let _who = ensure_root(origin)?;
+					Self::deposit_event(Event::InvestigationUnderway(indicator));
+					Ok(())
+				}
 	}
 }
