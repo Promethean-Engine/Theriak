@@ -5,7 +5,7 @@
 /// https://substrate.dev/docs/en/knowledgebase/runtime/frame
 
 use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch, storage::IterableStorageMap, traits::Get};
-use frame_system::{ensure_root};
+use frame_system::{ensure_root, ensure_signed};
 use crate::dispatch::Vec;
 
 #[cfg(test)]
@@ -17,7 +17,7 @@ mod tests;
 /// Configure the pallet by specifying the parameters and types on which it depends.
 pub trait Trait: frame_system::Trait {
 	/// Because this pallet emits events, it depends on the runtime's definition of an event.
-	type Event: From<Event> + Into<<Self as frame_system::Trait>::Event>;
+	type Event: From<Event<Self>> + Into<<Self as frame_system::Trait>::Event>;
 }
 
 // The pallet's runtime storage items.
@@ -30,17 +30,19 @@ decl_storage! {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
 		PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
+                Attestation get (fn attestations): map hasher(blake2_128_concat) T::AccountId => (u32, bool);
 	}
 }
 
 // Pallets use events to inform users when important changes are made.
 // https://substrate.dev/docs/en/knowledgebase/runtime/events
 decl_event!(
-	pub enum Event {
+	pub enum Event<T> where AccountId = <T as frame_system::Trait>::AccountId {
 		/// Event documentation should end with an array that provides descriptive names for event
 		/// parameters. [something, who]
                 IndicatorStored(u32),
                 InvestigationUnderway(u32),
+                AttestedBy(AccountId, u32, bool),
 	}
 );
 
@@ -77,7 +79,7 @@ decl_module! {
                         for (idx, indicator) in indicators.iter().enumerate() {
                             // Update storage.
 			    PeaceIndicators::insert(idx as u32, indicator);
-                            Self::deposit_event(Event::IndicatorStored(idx as u32));
+                            Self::deposit_event(RawEvent::IndicatorStored(idx as u32));
                         }
 			
 			// Emit an event.
@@ -88,8 +90,24 @@ decl_module! {
                 #[weight = 10_000 + T::DbWeight::get().writes(1)]
                 pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
                     let _who = ensure_root(origin)?;
-                    Self::deposit_event(Event::InvestigationUnderway(indicator));
+                    Self::deposit_event(RawEvent::InvestigationUnderway(indicator));
                     Ok(()) 
+                }
+
+                #[weight = 500]
+                pub fn attest_affirmative(origin, indicator: u32) -> dispatch::DispatchResult {
+                    let who = ensure_signed(origin)?;
+                    <Attestation<T>>::insert(&who, (indicator, true));
+                    Self::deposit_event(RawEvent::AttestedBy(who, indicator, true));
+                    Ok(())
+                }
+
+                #[weight = 500]
+                pub fn attest_negative(origin, indicator: u32) -> dispatch::DispatchResult {
+                    let who = ensure_signed(origin)?;
+                    <Attestation<T>>::insert(&who, (indicator, false));
+                    Self::deposit_event(RawEvent::AttestedBy(who, indicator, false));
+                    Ok(())
                 }
 	}
 }

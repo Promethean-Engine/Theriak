@@ -288,7 +288,7 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
                 Trust: pallet_trust::{Module, Call, Storage, Event<T>},
-                PeaceIndicators: pallet_peace_indicators::{Module, Call, Storage, Event},
+                PeaceIndicators: pallet_peace_indicators::{Module, Call, Storage, Event<T>},
 	}
 );
 
