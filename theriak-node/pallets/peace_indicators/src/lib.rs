@@ -71,7 +71,7 @@ decl_module! {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			// https://substrate.dev/docs/en/knowledgebase/runtime/origin
-			ensure_root(origin)?;
+			let _who = ensure_root(origin)?;
                         PeaceIndicators::drain(); 
                          
                         for (idx, indicator) in indicators.iter().enumerate() {
@@ -87,7 +87,7 @@ decl_module! {
                 
                 #[weight = 10_000 + T::DbWeight::get().writes(1)]
                 pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
-                    ensure_root(origin)?;
+                    let _who = ensure_root(origin)?;
                     Self::deposit_event(Event::InvestigationUnderway(indicator));
                     Ok(()) 
                 }

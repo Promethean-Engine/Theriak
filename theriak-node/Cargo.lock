@@ -3256,6 +3256,7 @@ dependencies = [
  "pallet-aura",
  "pallet-balances",
  "pallet-grandpa",
+ "pallet-peace-indicators",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
  "pallet-template",
@@ -3264,7 +3265,6 @@ dependencies = [
  "pallet-transaction-payment-rpc-runtime-api",
  "pallet-trust",
  "parity-scale-codec",
- "peace-indicators-pallet",
  "serde",
  "sp-api",
  "sp-block-builder",
@@ -3516,6 +3516,18 @@ dependencies = [
  "sp-session",
  "sp-staking",
  "sp-std",
+]
+
+[[package]]
+name = "pallet-peace-indicators"
+version = "2.0.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
 ]
 
 [[package]]
@@ -3928,18 +3940,6 @@ dependencies = [
  "byteorder 1.3.4",
  "crypto-mac 0.7.0",
  "rayon",
-]
-
-[[package]]
-name = "peace-indicators-pallet"
-version = "2.0.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-io",
- "sp-runtime",
 ]
 
 [[package]]
