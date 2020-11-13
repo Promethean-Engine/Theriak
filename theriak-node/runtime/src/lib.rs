@@ -42,7 +42,7 @@ pub use frame_support::{
 pub use pallet_template;
 pub use keystore_pallet;
 pub use peace_indicators_pallet;
-pub use trust_pallet;
+pub use pallet_trust;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -269,6 +269,10 @@ impl pallet_template::Trait for Runtime {
 	type Event = Event;
 }
 
+impl pallet_trust::Trait for Runtime {
+    type Event = Event;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -284,6 +288,7 @@ construct_runtime!(
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
+                Trust: pallet_trust::{Module, Call, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
 	}
