@@ -40,6 +40,9 @@ pub use frame_support::{
 
 /// Import the template pallet.
 pub use pallet_template;
+pub use keystore_pallet;
+pub use peace_indicators_pallet;
+pub use trust_pallet;
 
 /// An index to a block.
 pub type BlockNumber = u32;
