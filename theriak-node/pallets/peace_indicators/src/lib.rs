@@ -5,7 +5,7 @@
 /// https://substrate.dev/docs/en/knowledgebase/runtime/frame
 
 use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch, storage::IterableStorageMap, traits::Get};
-use frame_system::{ensure_signed, ensure_root};
+use frame_system::{ensure_root};
 use crate::dispatch::Vec;
 
 #[cfg(test)]
