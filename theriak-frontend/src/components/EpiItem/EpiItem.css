@@ -38,14 +38,16 @@
 }
 
 @media (max-width: 500px) {
-    .epiIcons {
-        display: flex;
+    .epiText{
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .epiItem{
         flex-direction: column;
     }
 
-    .decline {
-        color: red;
-        margin-left: 0px;
+    .epiIcons {
         margin-top: 10px;
     }
 }
