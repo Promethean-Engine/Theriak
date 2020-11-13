@@ -67,7 +67,7 @@ decl_module! {
             
                 /// Removes all current indicators and instantiates the set with new indicators
 		#[weight = 10_000 + T::DbWeight::get().writes(1)]
-		pub fn sudoSubmitNewIndicatorSet(origin, indicators: Vec<Vec<u8>>) -> dispatch::DispatchResult {
+		pub fn sudo_submit_new_indicator_set(origin, indicators: Vec<Vec<u8>>) -> dispatch::DispatchResult {
 			// Check that the extrinsic was signed and get the signer.
 			// This function will return an error if the extrinsic is not signed.
 			// https://substrate.dev/docs/en/knowledgebase/runtime/origin
@@ -86,7 +86,7 @@ decl_module! {
 		}
                 
                 #[weight = 10_000 + T::DbWeight::get().writes(1)]
-                pub fn raiseInvestigation(origin, indicator: u32) -> dispatch::DispatchResult {
+                pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
                     ensure_root(origin)?;
                     Self::deposit_event(Event::InvestigationUnderway(indicator));
                     Ok(()) 
