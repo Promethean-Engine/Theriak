@@ -7,7 +7,7 @@ import Header from '../Header/Header';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Content />
     </div>

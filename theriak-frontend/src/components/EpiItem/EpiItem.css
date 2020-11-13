@@ -1,0 +1,51 @@
+.epiItem {
+    display: flex;
+    flex-wrap: nowrap;
+    min-height: 80px;
+    border: 1px solid rgba(124, 130, 130, 1);
+    border-bottom: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px 5px 10px;
+}
+
+.epiItem:last-child {
+    border: 1px solid rgba(124, 130, 130, 1);
+}
+
+.epiText {
+    max-width: 70%;
+    font-size: 16px;
+}
+
+.icon {
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.accept {
+    color: green;
+}
+
+.decline {
+    color: red;
+    margin-left: 10px;
+}
+
+.epiIcons {
+    display: flex;
+    flex-direction: row;
+}
+
+@media (max-width: 500px) {
+    .epiIcons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .decline {
+        color: red;
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+}
