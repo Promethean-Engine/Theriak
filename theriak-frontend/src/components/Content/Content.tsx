@@ -95,7 +95,6 @@ async function attestNegative() {
         });
 }
 
-
 const ChainEpiList = async (): Promise<Array<Epi>> => {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
@@ -103,6 +102,7 @@ const ChainEpiList = async (): Promise<Array<Epi>> => {
     const epiSize = await api.query.peaceIndicators.indicatorSize();
     console.log(`indicator size: ${epiSize}`);
     let epis: Array<Epi> = new Array();
+
    
     for (let i = 0; i < parseInt(epiSize.toHex()); i++) {
         let epi = await api.query.peaceIndicators.peaceIndicators(i);
@@ -114,6 +114,7 @@ const ChainEpiList = async (): Promise<Array<Epi>> => {
     return epis;
 }
 /*
+
 const mockedUpEpiList: Array<Epi> = [
     { id: 1, text: "Lorem ipsum dolor sit Maecenas feugiat tortor orci, eu lobortis " },
     { id: 2, text: "Aenean convallis laoreet elit tempus pharetra. Maecenas feugiat tortor orci, eu lCurabitur vitae venenatis mauris" },
