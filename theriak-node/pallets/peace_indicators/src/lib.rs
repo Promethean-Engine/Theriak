@@ -79,8 +79,9 @@ decl_module! {
                 Self::deposit_event(RawEvent::IndicatorStored(idx as u32));
             }
             IndicatorSize::put(indicators.len() as u32);
-			Ok(())
-		}
+            Ok(())
+        }
+
 
         #[weight = 10_000 + T::DbWeight::get().writes(1)]
         pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
