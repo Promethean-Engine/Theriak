@@ -16,39 +16,43 @@
 .epiText {
     max-width: 70%;
     font-size: 16px;
+    text-align: justify;
 }
 
-.icon {
+.investigateBtn {
+    background-color: #2a6f97;
+    border-radius: 28px;
+    border: 1px solid #335a78;
+    display: inline-block;
     cursor: pointer;
-    font-size: 40px;
+    color: #ffffff;
+    font-weight: bolder;
+    font-size: 17px;
+    padding: 16px 25px;
+    text-decoration: none;
 }
 
-.accept {
-    color: green;
-    margin-right: 10px;
+.investigateBtn:hover {
+    background-color: #3a81ab;
 }
 
-.decline {
-    color: red;
-    margin-left: 10px;
-}
-
-.epiIcons {
-    display: flex;
-    flex-direction: row;
+.investigateBtn:active {
+    position: relative;
+    top: 1px;
 }
 
 @media (max-width: 500px) {
-    .epiText{
+    .epiText {
         max-width: 100%;
         width: 100%;
     }
 
-    .epiItem{
+    .epiItem {
         flex-direction: column;
     }
 
-    .epiIcons {
+    .investigateBtn {
         margin-top: 10px;
+        padding: 12px 10px;
     }
 }
