@@ -96,6 +96,7 @@ async function attestNegative(id: number) {
 }
 
 async function submitEpis(epis: Array<string>) {
+    console.log(1, epis);
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
