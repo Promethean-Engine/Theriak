@@ -54,14 +54,14 @@ async function sendTransaction() {
     });
 }
 
-async function attestAffirmative() {
+async function attestAffirmative(id: number) {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
     const allAccounts = await web3Accounts();
     let account = allAccounts[0]
     const attestExtrinsic = api.tx.peaceIndicators
-        .attestAffirmative()
+        .attestAffirmative(id)
         .signAndSend(account.address, (result) => {
             console.log(`Current status is ${result.status}`);
 
@@ -73,7 +73,7 @@ async function attestAffirmative() {
         });
 }
 
-async function attestNegative() {
+async function attestNegative(id: number) {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
@@ -83,7 +83,7 @@ async function attestNegative() {
     // but this is fine i guess
     let account = allAccounts[0]
     const attestExtrinsic = api.tx.peaceIndicators
-        .attestNegative()
+        .attestNegative(id)
         .signAndSend(account.address, (result) => {
             console.log(`Current status is ${result.status}`);
 
@@ -173,8 +173,8 @@ const Content: React.FC = () => {
         };
 
         const fetchTrustPeople = async () => {
-            const result = await Promise.resolve(mockedUpTrustPeople);
-            setTrustPeople(result);
+            // const result = await Promise.resolve(mockedUpTrustPeople);
+            // setTrustPeople(result);
             setIsTrustPeopleLoading(false);
         }
 
@@ -188,7 +188,7 @@ const Content: React.FC = () => {
     }, []);
 
     const reportEpi = async (epiId: number, isViolated: boolean) => {
-        if isViolated {
+        if (isViolated) {
             await attestNegative(epiId);
         } else {
             await attestAffirmative(epiId);
