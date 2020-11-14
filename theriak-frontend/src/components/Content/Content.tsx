@@ -102,6 +102,27 @@ async function attestNegative(id: number) {
         });
 }
 
+async function submitEpis(epis: Array<string>) {
+    const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+    const api = await ApiPromise.create({ provider: wsProvider });
+    const allInjected = await web3Enable('Theriak Frontend');
+    const allAccounts = await web3Accounts();
+    let account = allAccounts[0]
+    const injector = await web3FromSource(account.meta.source);
+
+    const attestExtrinsic = api.tx.peaceIndicators
+        .sudo_submit_new_indicator_set(epis)
+        .signAndSend(account.address, {signer: injector.signer }, (result) => {
+            console.log(`Current status is ${result.status}`);
+
+            if (result.status.isInBlock) {
+                alert(`Transaction included at blockHash ${result.status.asInBlock}`);
+            } else if (result.status.isFinalized) {
+                alert(`Transaction is finalized at blockHash ${result.status.asFinalized}`)
+            }
+        });
+}
+
 const ChainEpiList = async (): Promise<Array<Epi>> => {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
@@ -162,6 +183,7 @@ const mockedUpTrustPeople: Array<TrustPerson> = [
 const Content: React.FC = () => {
 
     const [isTrustPeopleVisibile, setIsTrustPeopleVisible] = useState(false);
+    const [isEpiWindowVisible, setIsEpiWindowVisible] = useState(false);
     const [epi, setEpi] = useState([]);
     const [isEpiLoading, setIsEpiLoading] = useState(true);
     const [trustPeople, setTrustPeople] = useState([])
@@ -195,6 +217,10 @@ const Content: React.FC = () => {
         } else {
             await attestAffirmative(epiId);
         }
+    }
+
+    const createEpis = async (epis: Array<string>) => {
+        await submitEpis(epis);
     }
 
     return (
