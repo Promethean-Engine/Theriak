@@ -60,9 +60,11 @@ async function attestAffirmative(id: number) {
     const allInjected = await web3Enable('Theriak Frontend');
     const allAccounts = await web3Accounts();
     let account = allAccounts[0]
+    const injector = await web3FromSource(account.meta.source);
+
     const attestExtrinsic = api.tx.peaceIndicators
         .attestAffirmative(id)
-        .signAndSend(account.address, (result) => {
+        .signAndSend(account.address, { signer: injector.signer }, (result) => {
             console.log(`Current status is ${result.status}`);
 
             if (result.status.isInBlock) {
@@ -74,17 +76,22 @@ async function attestAffirmative(id: number) {
 }
 
 async function attestNegative(id: number) {
+    // TODO:  could make this a global variable or pass it through props or something
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
     const allAccounts = await web3Accounts();
+    let account = allAccounts[0]
+    const injector = await web3FromSource(account.meta.source);
+   
+   
     // currently we just get the first account
     // need to figure out how to get polkadot.js extension to choose accounts
     // but this is fine i guess
-    let account = allAccounts[0]
+   
     const attestExtrinsic = api.tx.peaceIndicators
         .attestNegative(id)
-        .signAndSend(account.address, (result) => {
+        .signAndSend(account.address, {signer: injector.signer }, (result) => {
             console.log(`Current status is ${result.status}`);
 
             if (result.status.isInBlock) {
@@ -100,21 +107,16 @@ const ChainEpiList = async (): Promise<Array<Epi>> => {
     const api = await ApiPromise.create({ provider: wsProvider });
 
     const epiSize = await api.query.peaceIndicators.indicatorSize();
-    console.log(`indicator size: ${epiSize}`);
     let epis: Array<Epi> = new Array();
-
-   
-    for (let i = 0; i < parseInt(epiSize.toHex()); i++) {
+    for (let i = 0; i < parseInt(epiSize.toString()); i++) {
         let epi = await api.query.peaceIndicators.peaceIndicators(i);
         let text = hex2ascii(epi.toString());
-        console.log(epis);
         epis[i] = { id: i, text: text };
     }
 
     return epis;
 }
 /*
-
 const mockedUpEpiList: Array<Epi> = [
     { id: 1, text: "Lorem ipsum dolor sit Maecenas feugiat tortor orci, eu lobortis " },
     { id: 2, text: "Aenean convallis laoreet elit tempus pharetra. Maecenas feugiat tortor orci, eu lCurabitur vitae venenatis mauris" },
