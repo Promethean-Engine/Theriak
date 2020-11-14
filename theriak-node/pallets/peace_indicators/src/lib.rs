@@ -47,12 +47,12 @@ decl_event!(
 
 // Errors inform users that something went wrong.
 decl_error! {
-	pub enum Error for Module<T: Trait> {
-		/// Error names should be descriptive.
-		NoneValue,
-		/// Errors should have helpful documentation associated with them.
-		StorageOverflow,
-	}
+    pub enum Error for Module<T: Trait> {
+        /// Error names should be descriptive.
+        NoneValue,
+        /// Errors should have helpful documentation associated with them.
+        StorageOverflow,
+    }
 }
 
 // Dispatchable functions allows users to interact with the pallet and invoke state changes.
@@ -81,7 +81,6 @@ decl_module! {
             IndicatorSize::put(indicators.len() as u32);
             Ok(())
         }
-
 
         #[weight = 10_000 + T::DbWeight::get().writes(1)]
         pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
