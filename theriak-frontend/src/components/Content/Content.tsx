@@ -54,28 +54,66 @@ async function sendTransaction() {
     });
 }
 
+async function attestAffirmative() {
+    const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+    const api = await ApiPromise.create({ provider: wsProvider });
+    const allInjected = await web3Enable('Theriak Frontend');
+    const allAccounts = await web3Accounts();
+    let account = allAccounts[0]
+    const attestExtrinsic = api.tx.peaceIndicators
+        .attestAffirmative()
+        .signAndSend(account.address, (result) => {
+            console.log(`Current status is ${result.status}`);
+
+            if (result.status.isInBlock) {
+                alert(`Transaction included at blockHash ${result.status.asInBlock}`);
+            } else if (result.status.isFinalized) {
+                alert(`Transaction is finalized at blockHash ${result.status.asFinalized}`)
+            }
+        });
+}
+
+async function attestNegative() {
+    const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+    const api = await ApiPromise.create({ provider: wsProvider });
+    const allInjected = await web3Enable('Theriak Frontend');
+    const allAccounts = await web3Accounts();
+    // currently we just get the first account
+    // need to figure out how to get polkadot.js extension to choose accounts
+    // but this is fine i guess
+    let account = allAccounts[0]
+    const attestExtrinsic = api.tx.peaceIndicators
+        .attestNegative()
+        .signAndSend(account.address, (result) => {
+            console.log(`Current status is ${result.status}`);
+
+            if (result.status.isInBlock) {
+                alert(`Transaction included at blockHash ${result.status.asInBlock}`);
+            } else if (result.status.isFinalized) {
+                alert(`Transaction is finalized at blockHash ${result.status.asFinalized}`)
+            }
+        });
+}
+
+
 const ChainEpiList = async (): Promise<Array<Epi>> => {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
 
     const epiSize = await api.query.peaceIndicators.indicatorSize();
     console.log(`indicator size: ${epiSize}`);
-    // console.log(epiSize);
-    // console.log(epiSize.());
-    let epis: Array<Epi>;
+    let epis: Array<Epi> = new Array();
    
     for (let i = 0; i < parseInt(epiSize.toHex()); i++) {
         let epi = await api.query.peaceIndicators.peaceIndicators(i);
         let text = hex2ascii(epi.toString());
-        // epis[i] = { id: i, text: text };
-        console.log(i);
+        console.log(epis);
+        epis[i] = { id: i, text: text };
     }
-    
-    return [
-        {id : 1, text: "Lorem ipsum dolor sit Maecenas feugiat tortor orci, eu lobortis" }
-    ]
-}
 
+    return epis;
+}
+/*
 const mockedUpEpiList: Array<Epi> = [
     { id: 1, text: "Lorem ipsum dolor sit Maecenas feugiat tortor orci, eu lobortis " },
     { id: 2, text: "Aenean convallis laoreet elit tempus pharetra. Maecenas feugiat tortor orci, eu lCurabitur vitae venenatis mauris" },
@@ -116,6 +154,7 @@ const mockedUpTrustPeople: Array<TrustPerson> = [
     { id: 20, name: "Martha Rahman", trustRate: 40 },
     { id: 21, name: "Jareth Browning", trustRate: 90 }
 ]
+*/
 
 const Content: React.FC = () => {
 
@@ -127,9 +166,8 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            // let list = await ChainEpiList();
-            const result = await Promise.resolve(mockedUpEpiList);
-            setEpi(result);
+            let list = await ChainEpiList();
+            setEpi(list);
             setIsEpiLoading(false);
         };
 
@@ -146,13 +184,14 @@ const Content: React.FC = () => {
         } catch (error) {
             //handle error
         }
-
     }, []);
 
     const reportEpi = async (epiId: number, isViolated: boolean) => {
-        await sendTransaction();
-        //todo add endpoint api
-        await Promise.resolve();
+        if isViolated {
+            await attestNegative(epiId);
+        } else {
+            await attestAffirmative(epiId);
+        }
     }
 
     return (
