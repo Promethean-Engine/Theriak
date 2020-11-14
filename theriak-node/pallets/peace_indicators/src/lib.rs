@@ -24,8 +24,9 @@ decl_storage! {
 	trait Store for Module<T: Trait> as TemplateModule {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
-				PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
-				Attestation get(fn attestations): double_map hasher(blake2_128_concat) T::AccountId, hasher(blake2_128_concat) u32 => bool;
+        PeaceIndicators get(fn indicators): map hasher(blake2_128_concat) u32 => Vec<u8>;
+        Attestation get(fn attestations): double_map hasher(blake2_128_concat) T::AccountId, hasher(blake2_128_concat) u32 => bool;
+        IndicatorSize get(fn size): Option<u32>;
 	}
 }
 
@@ -77,9 +78,10 @@ decl_module! {
                 PeaceIndicators::insert(idx as u32, indicator);
                 Self::deposit_event(RawEvent::IndicatorStored(idx as u32));
             }
+            IndicatorSize::put(indicators.len() as u32);
+            Ok(())
+        }
 
-			Ok(())
-		}
 
         #[weight = 10_000 + T::DbWeight::get().writes(1)]
         pub fn raise_investigation(origin, indicator: u32) -> dispatch::DispatchResult {
