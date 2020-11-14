@@ -1,8 +1,8 @@
 export type Epi = {
     id: number,
     text: string,
-    positive: number,
-    negative: number
+    positive?: number,
+    negative?: number
 }
 
 export type EpiAbuse = {
