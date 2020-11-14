@@ -9,12 +9,6 @@ use frame_support::{
 };
 use frame_system::{ensure_root, ensure_signed};
 
-#[cfg(test)]
-mod mock;
-
-#[cfg(test)]
-mod tests;
-
 /// Configure the pallet by specifying the parameters and types on which it depends.
 pub trait Trait: frame_system::Trait {
 	/// Because this pallet emits events, it depends on the runtime's definition of an event.
