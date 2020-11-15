@@ -56,7 +56,7 @@ async function attestAffirmative(id: number) {
     const injector = await web3FromSource(account.meta.source);
 
     const attestExtrinsic = api.tx.peaceIndicators
-        .attestAffirmative(id)
+        .attestPositive(id)
         .signAndSend(account.address, { signer: injector.signer }, (result) => {
             console.log(`Current status is ${result.status}`);
 
