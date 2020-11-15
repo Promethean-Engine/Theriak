@@ -20,7 +20,7 @@ async function attestAffirmative(id: number) {
     const injector = await web3FromSource(account.meta.source);
 
     const attestExtrinsic = api.tx.peaceIndicators
-        .attestAffirmative(id)
+        .attestPositive(id)
         .signAndSend(account.address, { signer: injector.signer }, (result) => {
             console.log(`Current status is ${result.status}`);
 
@@ -101,6 +101,36 @@ async function submitEpis(epis: Array<string>) {
         })
 }
 
+async function getAggregate(id: number) {
+    const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+    const api = await ApiPromise.create({
+        provider: wsProvider,
+        types: {
+            EipAttestation: {
+                positiveCount: 'u32',
+                negativeCount: 'u32',
+                whoPositive: 'Vec<AccountId>',
+                whoNegative: 'Vec<AccountId>'
+            }
+        }
+    });
+
+    const allInjected = await web3Enable('Theriak Frontend');
+    const allAccounts = await web3Accounts();
+    let account = allAccounts[1]
+    const injector = await web3FromSource(account.meta.source);
+
+    const aggregate = await api.query.peaceIndicators.aggregator(id);
+    console.log(aggregate['positiveCount'].toString());
+    console.log(aggregate['whoPositive'].toString());
+    // console.log(aggregate.Map.positiveCount);
+
+    alert(`
+        Votes Affirming: ${aggregate['positiveCount'].toString()}
+        Votes Negating: ${aggregate['negativeCount'].toString()}
+    `);
+}
+
 const chainEpiList = async (): Promise<Array<Epi>> => {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
     const api = await ApiPromise.create({ provider: wsProvider });
@@ -112,8 +142,8 @@ const chainEpiList = async (): Promise<Array<Epi>> => {
         let text = hex2ascii(epi.toString());
         epis[i] = { id: i, text: text };
     }
-
+    
     return epis;
 }
 
-export { submitEpis, chainEpiList, attestNegative, attestAffirmative, raiseInvestigation }
+export { submitEpis, chainEpiList, attestNegative, attestAffirmative, raiseInvestigation, getAggregate }

@@ -29,6 +29,7 @@
     font-weight: bolder;
     font-size: 17px;
     padding: 13px 23px;
+    margin-right: 5px;
     text-decoration: none;
 }
 
@@ -37,6 +38,28 @@
 }
 
 .investigateBtn:active {
+    position: relative;
+    top: 1px;
+}
+
+.aggregateBtn {
+    background-color: #A100F7 ;
+    border-radius: 28px;
+    border: 1px solid #335a78;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: bolder;
+    font-size: 17px;
+    padding: 13px 23px;
+    text-decoration: none;
+}
+
+.aggregateBtn:hover {
+    background-color: #3a81ab;
+}
+
+.aggregateBtn:active {
     position: relative;
     top: 1px;
 }
