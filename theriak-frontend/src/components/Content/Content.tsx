@@ -5,7 +5,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import './Content.css';
 import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
-import { chainEpiList } from '../../common/apiFunctions';
+import { chainEpiList, raiseInvestigation } from '../../common/apiFunctions';
 import AddEpiModal from '../AddEpi/AddEpiModal';
 import { mockEpiList } from '../../common/mockData';
 
@@ -20,7 +20,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            let list = await Promise.resolve(mockEpiList);
+            let list = await chainEpiList();
             setEpi(list);
             setIsEpiLoading(false);
         };
@@ -41,7 +41,7 @@ const Content: React.FC = () => {
     }, []);
 
     const reportEpi = async (epiId: number) => {
-        //await...
+        await raiseInvestigation(epiId);
     }
 
     return (
