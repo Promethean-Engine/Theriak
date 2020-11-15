@@ -7,6 +7,9 @@ import {
     web3UseRpcProvider,
     web3FromSource
 } from '@polkadot/extension-dapp';
+// Import Keyring class and utility functions
+import { Keyring } from '@polkadot/keyring';
+import { stringToU8a } from '@polkadot/util';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Epi } from '../dataTypes';
 
@@ -39,12 +42,11 @@ async function attestNegative(id: number) {
     const allAccounts = await web3Accounts();
     let account = allAccounts[0]
     const injector = await web3FromSource(account.meta.source);
-
-
+   
     // currently we just get the first account
     // need to figure out how to get polkadot.js extension to choose accounts
     // but this is fine i guess
-
+    
     const attestExtrinsic = api.tx.peaceIndicators
         .attestNegative(id)
         .signAndSend(account.address, { signer: injector.signer }, (result) => {
@@ -65,7 +67,7 @@ async function raiseInvestigation(id: number) {
     const allAccounts = await web3Accounts();
     let account = allAccounts[0]
     const injector = await web3FromSource(account.meta.source);
-
+   
     const investExtrinsic = api.tx.peaceIndicators
         .raiseInvestigation(id)
         .signAndSend(account.address, { signer: injector.signer }, (result) => {
@@ -84,12 +86,13 @@ async function submitEpis(epis: Array<string>) {
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
     const allAccounts = await web3Accounts();
-    let account = allAccounts[0]
+    let account = allAccounts[1]
     const injector = await web3FromSource(account.meta.source);
 
-    const attestExtrinsic = api.tx.peaceIndicators
-        .sudo_submit_new_indicator_set(epis)
-        .signAndSend(account.address, { signer: injector.signer }, (result) => {
+    const submitEpisExt = api.tx.sudo.sudo(
+        api.tx.peaceIndicators
+        .sudoSubmitNewIndicatorSet(epis)
+    ).signAndSend(account.address, { signer: injector.signer }, (result) => {
             console.log(`Current status is ${result.status}`);
 
             if (result.status.isInBlock) {
