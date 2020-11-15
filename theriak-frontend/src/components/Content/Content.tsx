@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faPlusCircle, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import './Content.css';
 import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
 import { chainEpiList, raiseInvestigation } from '../../common/apiFunctions';
 import AddEpiModal from '../AddEpi/AddEpiModal';
+import AddTrustModal from '../AddTrust/AddTrustModal';
 import { mockEpiList } from '../../common/mockData';
 import constructGraph from './Graph';
 
@@ -14,6 +14,7 @@ import constructGraph from './Graph';
 const Content: React.FC = () => {
     const [isTrustPeopleVisibile, setIsTrustPeopleVisible] = useState(false);
     const [isAddEpiVisible, setisAddEpiVisible] = useState(false);
+    const [isAddTrustVisible, setisAddTrustVisible] = useState(false);
     const [epi, setEpi] = useState([]);
     const [isEpiLoading, setIsEpiLoading] = useState(true);
     const [trustPeople, setTrustPeople] = useState([])
@@ -27,9 +28,9 @@ const Content: React.FC = () => {
         };
 
         const fetchTrustPeople = async () => {
-          let list = await constructGraph();
-          setTrustPeople(list);
-          setIsTrustPeopleLoading(false);
+            let list = await constructGraph();
+            setTrustPeople(list);
+            setIsTrustPeopleLoading(false);
         }
 
         const fetchData = async () => await Promise.all([fetchEpi(), fetchTrustPeople()])
@@ -51,11 +52,14 @@ const Content: React.FC = () => {
             <div className='icons'>
                 {!isTrustPeopleVisibile && <FontAwesomeIcon icon={faUserCircle} onClick={() => setIsTrustPeopleVisible(true)} />}
                 {!isAddEpiVisible && <FontAwesomeIcon icon={faPlusCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddEpiVisible(true)} />}
+                {!isAddTrustVisible && <FontAwesomeIcon icon={faQuestionCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddTrustVisible(true)} />}
             </div>
             {isTrustPeopleVisibile && <TrustPeople people={trustPeople} isLoadingData={isTrustPeopleLoading} closeTrustPeople={() => setIsTrustPeopleVisible(false)} />}
             {isAddEpiVisible && <AddEpiModal closeModal={() => setisAddEpiVisible(false)} />}
+            {isAddTrustVisible && <AddTrustModal closeModal={() => setisAddTrustVisible(false)} />}
         </div>
     );
 }
 
 export default Content;
+
