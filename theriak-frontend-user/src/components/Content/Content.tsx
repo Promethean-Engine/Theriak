@@ -7,8 +7,6 @@ import TrustPeople from "../TrustPeople/TrustPeople";
 import { attestAffirmative, attestNegative, chainEpiList, } from "../../common/apiFunctions";
 import AddTrustModal from "../AddTrust/AddTrustModal";
 import constructGraph from "./Graph";
-import { mockComponent } from "react-dom/test-utils";
-import { mockEpiList } from "../../common/mockData";
 
 const Content: React.FC = () => {
     const [isTrustPeopleVisibile, setIsTrustPeopleVisible] = useState(false);
