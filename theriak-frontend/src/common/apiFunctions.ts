@@ -84,27 +84,6 @@ async function submitEpis(epis: Array<string>) {
     const api = await ApiPromise.create({ provider: wsProvider });
     const allInjected = await web3Enable('Theriak Frontend');
     const allAccounts = await web3Accounts();
-    let account = allAccounts[0]
-    const injector = await web3FromSource(account.meta.source);
-   
-    const investExtrinsic = api.tx.peaceIndicators
-        .raiseInvestigation(id)
-        .signAndSend(account.address, { signer: injector.signer }, (result) => {
-            console.log(`Current status is ${result.status}`);
-
-            if (result.status.isInBlock) {
-                alert(`Investigation raised and included at blockHash ${result.status.asInBlock}`);
-            } else if (result.status.isFinalized) {
-                alert(`Transaction is finalized at blockHash ${result.status.asFinalized}`)
-            }
-        })
-}
-
-async function submitEpis(epis: Array<string>) {
-    const wsProvider = new WsProvider('ws://127.0.0.1:9944');
-    const api = await ApiPromise.create({ provider: wsProvider });
-    const allInjected = await web3Enable('Theriak Frontend');
-    const allAccounts = await web3Accounts();
     let account = allAccounts[1]
     const injector = await web3FromSource(account.meta.source);
 
