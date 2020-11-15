@@ -8,8 +8,6 @@ import {
     web3FromSource
 } from '@polkadot/extension-dapp';
 // Import Keyring class and utility functions
-import { Keyring } from '@polkadot/keyring';
-import { stringToU8a } from '@polkadot/util';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { Epi } from '../dataTypes';
 
