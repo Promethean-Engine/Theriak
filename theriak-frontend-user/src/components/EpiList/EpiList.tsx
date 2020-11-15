@@ -8,7 +8,7 @@ import './EpiList.css';
 type EpiListProps = {
     epiList: Array<Epi>,
     isLoadingData: boolean,
-    reportEpi: Function
+    reportEpi: (epiId: number, isViolated: boolean) => void
 }
 
 const EpiList: React.FC<EpiListProps> = ({ epiList, isLoadingData, reportEpi }) => {

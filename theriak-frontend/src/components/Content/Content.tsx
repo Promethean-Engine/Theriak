@@ -22,7 +22,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            let list = await chainEpiList();
+            let list = await Promise.resolve(mockEpiList);
             setEpi(list);
             setIsEpiLoading(false);
         };
@@ -42,13 +42,13 @@ const Content: React.FC = () => {
         }
     }, []);
 
-    const reportEpi = async (epiId: number) => {
+    const investigateEpi = async (epiId: number) => {
         await raiseInvestigation(epiId);
     }
 
     return (
         <div className='contentContainer'>
-            <EpiList epiList={epi} isLoadingData={isEpiLoading} reportEpi={reportEpi} />
+            <EpiList epiList={epi} isLoadingData={isEpiLoading} investigateEpi={investigateEpi} />
             <div className='icons'>
                 {!isTrustPeopleVisibile && <FontAwesomeIcon icon={faUserCircle} onClick={() => setIsTrustPeopleVisible(true)} />}
                 {!isAddEpiVisible && <FontAwesomeIcon icon={faPlusCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddEpiVisible(true)} />}

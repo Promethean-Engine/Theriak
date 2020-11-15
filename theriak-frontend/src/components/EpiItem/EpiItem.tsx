@@ -4,14 +4,14 @@ import './EpiItem.css';
 
 type EpiItemProps = {
     epi: Epi,
-    reportEpi: (id: number) => void
+    investigateEpi: (id: number) => void
 }
 
-const EpiItem: React.FC<EpiItemProps> = ({ epi, reportEpi }) => {
+const EpiItem: React.FC<EpiItemProps> = ({ epi, investigateEpi }) => {
     return (
         <div className='epiItem'>
             <div className='epiText'>{epi.text}</div>
-            <div className='investigateBtn' onClick={() => reportEpi(epi.id)}>Investigate</div>
+            <div className='investigateBtn' onClick={() => investigateEpi(epi.id)}>Investigate</div>
         </div>
     );
 }

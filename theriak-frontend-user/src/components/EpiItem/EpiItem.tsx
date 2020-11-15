@@ -7,7 +7,7 @@ import './EpiItem.css';
 
 type EpiItemProps = {
     epi: Epi,
-    reportEpi: Function
+    reportEpi: (epiId: number, isViolated: boolean) => void
 }
 
 const EpiItem: React.FC<EpiItemProps> = ({ epi, reportEpi }) => {
