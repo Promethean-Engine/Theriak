@@ -54,21 +54,21 @@
     font-family: 'Segoe UI';
 }
 
-.sendIssueTrustBtn {
+.trustModalIcons {
+    position: absolute;
     left: 50%;
     bottom: 5%;
-    transform: translate(-150%);
-    position: absolute;
+    transform: translate(-50%);
+}
+
+.sendIssueTrustBtn {
     color: green;
     font-size: 40px;
+    margin-right: 10px;
 }
 
 .sendRevokeTrustBtn {
-    left: 50%;
-    bottom: 5%;
-    transform: translate(-0%);
-    position: absolute;
-    color: #b21414;
+    color: #df1414;
     font-size: 40px;
 }
 

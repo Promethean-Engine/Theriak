@@ -23,19 +23,29 @@
     font-size: 40px;
 }
 
+.icon:active {
+    position: relative;
+    top: 1px;
+}
+
 .accept {
     color: green;
     margin-right: 10px;
 }
 
 .decline {
-    color: red;
+    color: #df1414;
     margin-left: 10px;
 }
 
 .epiIcons {
     display: flex;
     flex-direction: row;
+}
+
+.nonActive {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 500px) {

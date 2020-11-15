@@ -8,17 +8,17 @@ import './EpiList.css';
 type EpiListProps = {
     epiList: Array<Epi>,
     isLoadingData: boolean,
-    reportEpi: (id:number) => void,
+    investigateEpi: (id:number) => void,
     reportScore: (id:number) => void 
 }
 
-const EpiList: React.FC<EpiListProps> = ({ epiList, isLoadingData, reportEpi, reportScore }) => {
+const EpiList: React.FC<EpiListProps> = ({ epiList, isLoadingData, investigateEpi, reportScore }) => {
 
     const renderContent = () => {
         return (
             <>
                 <div className='textHeader'>Everyday peace indicators</div>
-                {epiList.map(epi => <EpiItem key={epi.id} epi={epi} reportEpi={reportEpi} reportScore={reportScore} />)}
+                {epiList.map(epi => <EpiItem key={epi.id} epi={epi} investigateEpi={investigateEpi} reportScore={reportScore} />)}
             </>
         );
     }
