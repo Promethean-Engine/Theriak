@@ -8,6 +8,7 @@ import TrustPeople from '../TrustPeople/TrustPeople';
 import { chainEpiList } from '../../common/apiFunctions';
 import AddEpiModal from '../AddEpi/AddEpiModal';
 import { mockEpiList } from '../../common/mockData';
+import constructGraph from './Graph';
 
 
 const Content: React.FC = () => {
@@ -26,9 +27,9 @@ const Content: React.FC = () => {
         };
 
         const fetchTrustPeople = async () => {
-            // const result = await Promise.resolve(mockedUpTrustPeople);
-            // setTrustPeople(result);
-            setIsTrustPeopleLoading(false);
+          let list = await constructGraph();
+          setTrustPeople(list);
+          setIsTrustPeopleLoading(false);
         }
 
         const fetchData = async () => await Promise.all([fetchEpi(), fetchTrustPeople()])
@@ -58,4 +59,3 @@ const Content: React.FC = () => {
 }
 
 export default Content;
-

@@ -15,6 +15,7 @@ import './Content.css';
 import { Epi, TrustPerson } from '../../dataTypes';
 import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
+import constructGraph from './Graph';
 
 
 async function sendTransaction() {
@@ -181,8 +182,8 @@ const Content: React.FC = () => {
         };
 
         const fetchTrustPeople = async () => {
-            // const result = await Promise.resolve(mockedUpTrustPeople);
-            // setTrustPeople(result);
+            let list = await constructGraph();
+          setTrustPeople(list);
             setIsTrustPeopleLoading(false);
         }
 
