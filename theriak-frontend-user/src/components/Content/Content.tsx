@@ -21,7 +21,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            let list = await Promise.resolve(mockEpiList);
+            let list = await chainEpiList();
             setEpi(list);
             setIsEpiLoading(false);
         };
