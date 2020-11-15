@@ -5,9 +5,9 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import './Content.css';
 import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
-import { chainEpiList, submitEpis } from '../../common/apiFunctions';
-import { mockEpiList } from '../../common/mockData';
+import { chainEpiList } from '../../common/apiFunctions';
 import AddEpiModal from '../AddEpi/AddEpiModal';
+import { mockEpiList } from '../../common/mockData';
 
 
 const Content: React.FC = () => {
@@ -42,10 +42,6 @@ const Content: React.FC = () => {
 
     const reportEpi = async (epiId: number) => {
         //await...
-    }
-
-    const createEpis = async (epis: Array<string>) => {
-        await submitEpis(epis);
     }
 
     return (
