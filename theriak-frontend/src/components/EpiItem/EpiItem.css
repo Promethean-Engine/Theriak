@@ -16,52 +16,37 @@
 .epiText {
     max-width: 70%;
     font-size: 16px;
-    text-align: justify;
 }
 
-.investigateBtn {
-    background-color: #2a6f97;
-    border-radius: 28px;
-    border: 1px solid #335a78;
-    display: inline-block;
+.icon {
     cursor: pointer;
-    color: #ffffff;
-    font-weight: bolder;
-    font-size: 17px;
-    padding: 13px 23px;
-    margin-right: 5px;
-    text-decoration: none;
+    font-size: 40px;
+    color: #005380;
 }
 
-.investigateBtn:hover {
-    background-color: #3a81ab;
+.investigate {
+    color: #2a6f97;
+    margin-right: 10px;
 }
 
-.investigateBtn:active {
+.aggregate {
+    margin-left: 10px;
+    color: #3a81ab;
+}
+
+.icon:active {
     position: relative;
     top: 1px;
 }
 
-.aggregateBtn {
-    background-color: #A100F7 ;
-    border-radius: 28px;
-    border: 1px solid #335a78;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-weight: bolder;
-    font-size: 17px;
-    padding: 13px 23px;
-    text-decoration: none;
+.epiIcons {
+    display: flex;
+    flex-direction: row;
 }
 
-.aggregateBtn:hover {
-    background-color: #3a81ab;
-}
-
-.aggregateBtn:active {
-    position: relative;
-    top: 1px;
+.nonActive {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 500px) {
@@ -74,8 +59,7 @@
         flex-direction: column;
     }
 
-    .investigateBtn {
+    .epiIcons {
         margin-top: 10px;
-        padding: 12px 10px;
     }
 }

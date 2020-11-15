@@ -23,6 +23,11 @@
     font-size: 40px;
 }
 
+.icon:active {
+    position: relative;
+    top: 1px;
+}
+
 .accept {
     color: green;
     margin-right: 10px;
@@ -40,6 +45,7 @@
 
 .nonActive {
     opacity: 0.5;
+    cursor: not-allowed;
 }
 
 @media (max-width: 500px) {

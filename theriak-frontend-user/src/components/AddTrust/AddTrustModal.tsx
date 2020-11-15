@@ -30,7 +30,7 @@ const AddtrustModal: React.FC<AddtrustModalProps> = ({ closeModal }) => {
             <div className='modalContentTrust'>
                 <FontAwesomeIcon className='modalCloseIcon' icon={faTimesCircle} onClick={() => closeModal()} />
                 <div className='trustModalInput'>
-                    <textarea placeholder="Add new trust" id="newtrust" className='newTrustInput' onChange={inputChanged} value={trust}></textarea>
+                    <textarea placeholder="Trust" id="newtrust" className='newTrustInput' onChange={inputChanged} value={trust}></textarea>
                 </div>
                 <div className='trustModalIcons'>
                     <FontAwesomeIcon className='sendIssueTrustBtn' icon={faPlusCircle} onClick={() => sendNewIssueTrust()} />

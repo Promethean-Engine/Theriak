@@ -16,6 +16,7 @@ import {
 import AddEpiModal from "../AddEpi/AddEpiModal";
 import AddTrustModal from "../AddTrust/AddTrustModal";
 import constructGraph from "./Graph";
+import { mockEpiList } from "../../common/mockData";
 
 const Content: React.FC = () => {
     const [isTrustPeopleVisibile, setIsTrustPeopleVisible] = useState(false);
@@ -28,7 +29,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            let list = await chainEpiList();
+            let list = await Promise.resolve(mockEpiList);
             setEpi(list);
             setIsEpiLoading(false);
         };
@@ -49,31 +50,39 @@ const Content: React.FC = () => {
         }
     }, []);
 
-    const reportEpi = async (epiId: number) => {
-        await raiseInvestigation(epiId);
-    };
+    const investigateEpi = async (epiId: number) => await raiseInvestigation(epiId);
+    const reportScore = async (epiId: number) => await getAggregate(epiId);
 
-    const reportScore = async (epiId: number) => {
-        await getAggregate(epiId);
-    };
+    const renderIcons = () => {
+        return (
+            <div className="icons">
+                {!isTrustPeopleVisibile && <FontAwesomeIcon icon={faUserCircle} onClick={() => setIsTrustPeopleVisible(true)} />}
+                {!isAddEpiVisible && <FontAwesomeIcon icon={faPlusCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddEpiVisible(true)} />}
+                {!isAddTrustVisible && <FontAwesomeIcon icon={faQuestionCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddTrustVisible(true)} />}
+            </div>
+        )
+    }
+
+    const tryRenderModals = () => {
+        return (
+            <>
+                {isTrustPeopleVisibile && <TrustPeople people={trustPeople} isLoadingData={isTrustPeopleLoading} closeTrustPeople={() => setIsTrustPeopleVisible(false)} />}
+                {isAddEpiVisible && <AddEpiModal closeModal={() => setisAddEpiVisible(false)} />}
+                {isAddTrustVisible && <AddTrustModal closeModal={() => setisAddTrustVisible(false)} />}
+            </>
+        )
+    }
 
     return (
         <div className="contentContainer">
             <EpiList
                 epiList={epi}
                 isLoadingData={isEpiLoading}
-                reportEpi={reportEpi}
+                investigateEpi={investigateEpi}
                 reportScore={reportScore}
             />
-            <div className="icons">
-                {!isTrustPeopleVisibile && (<FontAwesomeIcon icon={faUserCircle} onClick={() => setIsTrustPeopleVisible(true)} />)}
-                {!isAddEpiVisible && (<FontAwesomeIcon icon={faPlusCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddEpiVisible(true)} />)}
-                {!isAddTrustVisible && (<FontAwesomeIcon icon={faQuestionCircle} style={{ marginLeft: "10px" }} onClick={() => setisAddTrustVisible(true)} />)}
-            </div>
-            {isTrustPeopleVisibile && (<TrustPeople people={trustPeople} isLoadingData={isTrustPeopleLoading} closeTrustPeople={() => setIsTrustPeopleVisible(false)} />)}
-            {isAddEpiVisible && (<AddEpiModal closeModal={() => setisAddEpiVisible(false)} />)}
-            {isAddTrustVisible && (<AddTrustModal closeModal={() => setisAddTrustVisible(false)} />
-            )}
+            {renderIcons()}
+            {tryRenderModals()}
         </div>
     );
 };
