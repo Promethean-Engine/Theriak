@@ -17,6 +17,7 @@ const EpiList: React.FC<EpiListProps> = ({ epiList, isLoadingData, reportEpi }) 
         return (
             <>
                 <div className='textHeader'>Everyday peace indicators</div>
+                <div className='textSubHeader'>Community Member</div>
                 {epiList.map(epi => <EpiItem key={epi.id} epi={epi} reportEpi={reportEpi} />)}
             </>
         );
