@@ -94,11 +94,11 @@ async function submitEpis(epis: Array<string>) {
             console.log(`Current status is ${result.status}`);
 
             if (result.status.isInBlock) {
-                alert(`Transaction included at blockHash ${result.status.asInBlock}`);
+                alert(`Investigation raised and included at blockHash ${result.status.asInBlock}`);
             } else if (result.status.isFinalized) {
                 alert(`Transaction is finalized at blockHash ${result.status.asFinalized}`)
             }
-        });
+        })
 }
 
 const chainEpiList = async (): Promise<Array<Epi>> => {
