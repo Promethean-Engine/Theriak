@@ -7,6 +7,7 @@ import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
 import { chainEpiList } from '../../common/apiFunctions';
 import AddEpiModal from '../AddEpi/AddEpiModal';
+import { mockEpiList } from '../../common/mockData';
 
 
 const Content: React.FC = () => {
@@ -19,7 +20,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         const fetchEpi = async () => {
-            let list = await chainEpiList();
+            let list = await Promise.resolve(mockEpiList);
             setEpi(list);
             setIsEpiLoading(false);
         };
