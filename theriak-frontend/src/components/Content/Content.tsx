@@ -15,7 +15,7 @@ import './Content.css';
 import { Epi, TrustPerson } from '../../dataTypes';
 import EpiList from '../EpiList/EpiList';
 import TrustPeople from '../TrustPeople/TrustPeople';
-
+// import InputTrustAddress from '../InputTrustAddress/InputTrustAddress';
 
 async function sendTransaction() {
     // console.log(web3ListRpcProviders);
@@ -31,6 +31,9 @@ async function sendTransaction() {
     const allAccounts = await web3Accounts();
 
     const account = allAccounts[0];
+
+    // const otherAccounts = await api.query.trust.trustIssuance(account.address, ${idx});
+    
     // console.log(api.tx.trust);
     // here we use the api to create a balance transfer to some account of a value of 12344
     const transferExtrinsic = api.tx.trust.issueTrust('5C5555yEXUcmEJ5kkcCMvdZjUo7NGJiQJMS7vZXEeoMhj3VQ');
@@ -104,7 +107,17 @@ async function attestNegative(id: number) {
 
 const ChainEpiList = async (): Promise<Array<Epi>> => {
     const wsProvider = new WsProvider('ws://127.0.0.1:9944');
-    const api = await ApiPromise.create({ provider: wsProvider });
+    const api = await ApiPromise.create(
+        {
+            provider: wsProvider,
+            types: {
+                EipAttestation: {
+                    positiveCount: 'u32',
+                    negativeCount: 'u32',
+                }
+                
+            }
+        });
 
     const epiSize = await api.query.peaceIndicators.indicatorSize();
     let epis: Array<Epi> = new Array();
@@ -117,7 +130,7 @@ const ChainEpiList = async (): Promise<Array<Epi>> => {
     return epis;
 }
 
-/*
+
 const mockedUpTrustPeople: Array<TrustPerson> = [
     { id: 1, name: "Charles Adams", trustRate: 100 },
     { id: 2, name: "Yolanda Lowery", trustRate: 80 },
@@ -141,7 +154,6 @@ const mockedUpTrustPeople: Array<TrustPerson> = [
     { id: 20, name: "Martha Rahman", trustRate: 40 },
     { id: 21, name: "Jareth Browning", trustRate: 90 }
 ]
-*/
 
 const Content: React.FC = () => {
 
@@ -159,8 +171,8 @@ const Content: React.FC = () => {
         };
 
         const fetchTrustPeople = async () => {
-            // const result = await Promise.resolve(mockedUpTrustPeople);
-            // setTrustPeople(result);
+            const result = await Promise.resolve(mockedUpTrustPeople);
+            setTrustPeople(result);
             setIsTrustPeopleLoading(false);
         }
 
@@ -190,5 +202,6 @@ const Content: React.FC = () => {
     );
 }
 
+           // <InputTrustAddress /> 
 export default Content;
 
