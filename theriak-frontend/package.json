@@ -8,6 +8,8 @@
     "@fortawesome/react-fontawesome": "^0.1.12",
     "@polkadot/api": "^2.6.1",
     "@polkadot/extension-dapp": "^0.34.1",
+    "@polkadot/keyring": "^4.0.1",
+    "@polkadot/util": "^4.0.1",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",

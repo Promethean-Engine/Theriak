@@ -14,7 +14,6 @@ const EpiItem: React.FC<EpiItemProps> = ({ epi, reportEpi }) => {
             <div className='investigateBtn' onClick={() => reportEpi(epi.id)}>Investigate</div>
         </div>
     );
-
 }
 
 export default EpiItem;
